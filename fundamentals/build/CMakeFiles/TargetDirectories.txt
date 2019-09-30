@@ -1,9 +1,0 @@
-/home/roy/programming/DSAL/fundamentals/build/CMakeFiles/rebuild_cache.dir
-/home/roy/programming/DSAL/fundamentals/build/CMakeFiles/edit_cache.dir
-/home/roy/programming/DSAL/fundamentals/build/CMakeFiles/test_vector.dir
-/home/roy/programming/DSAL/fundamentals/build/CMakeFiles/test_queue.dir
-/home/roy/programming/DSAL/fundamentals/build/CMakeFiles/test_array.dir
-/home/roy/programming/DSAL/fundamentals/build/CMakeFiles/test_ArrayBasedLists.dir
-/home/roy/programming/DSAL/fundamentals/build/CMakeFiles/test_deque.dir
-/home/roy/programming/DSAL/fundamentals/build/CMakeFiles/test_exp_eval.dir
-/home/roy/programming/DSAL/fundamentals/build/CMakeFiles/test_linked_lists.dir
