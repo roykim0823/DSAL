@@ -7,6 +7,7 @@ sl\_list.h: single linked list with push and pop both sides
 sl\_list\_shared.h: single linked list with std::shared\_ptr
 dl\_list.h: double linked list with push and pop both sides
 dl\_list\_shared.h: double linked list with std::shared\_ptr
+three\_sum.h : find three number to a sum
 
 ## Resizing-array efficient solutions
 When array is full, double size of array.

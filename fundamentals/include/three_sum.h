@@ -1,110 +1,107 @@
-// C++ program to find a triplet
-#include <bits/stdc++.h>
-using namespace std;
+#ifndef THREE_SUM_H_
+#define THREE_SUM_H_
 
-// returns true if there is triplet with sum equal 
-// to 'sum' present in A[]. Also, prints the triplet 
-// Method 1 (Naive): O(n^3)
-bool find3Numbers(int A[], int arr_size, int sum) 
-{ 
-	int l, r; 
+#include <algorithm>
+#include <iostream>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
 
-	// Fix the first element as A[i] 
-	for (int i = 0; i < arr_size - 2; i++) { 
+void print_three_sum(const std::vector<int>& vec, int i, int j, int k, int sum) {
+  return;
+  std::cout << i << " " << j << " " << k << " -> " 
+       << vec[i] << " + " << vec[j] << " + " << vec[k] << " = " << sum << std::endl;
+}
 
-		// Fix the second element as A[j] 
-		for (int j = i + 1; j < arr_size - 1; j++) { 
+int binary_search(const std::vector<int>& vec, int key) {
+  int lo = 0;
+  int hi = vec.size()-1;
+  while (lo <= hi) {
+    int mid = lo + (hi - lo) / 2;
+    if (key < vec[mid])
+      hi = mid - 1;
+    else if (key > vec[mid])
+      lo = mid + 1;
+    else
+      return mid;
+  }
+  return -1;
+}
 
-			// Now look for the third number 
-			for (int k = j + 1; k < arr_size; k++) { 
-				if (A[i] + A[j] + A[k] == sum) { 
-					printf("Triplet is %d, %d, %d", 
-						A[i], A[j], A[k]); 
-					return true; 
+// Ver1: brute-force, O(n^3)
+// Choose(N 3) = N(N-1)(N-2) / 3! = 1/6 N^3
+int cnt_three_sum_v1(const std::vector<int>& vec, int sum) {
+  int cnt = 0;
+	for (int i=0; i < vec.size()-2; ++i) { 
+		for (int j=i+1; j < vec.size()-1; ++j) { 
+			for (int k=j+1; k < vec.size(); ++k) { 
+				if (vec[i] + vec[j] + vec[k] == sum) { 
+          print_three_sum(vec, i, j, k, sum);
+          ++cnt;
 				} 
 			} 
 		} 
 	} 
-
-	// If we reach here, then no triplet was found 
-	return false; 
+	return cnt; 
 } 
 
-// returns true if there is triplet with sum equal
-// to 'sum' present in A[]. Also, prints the triplet
-// Method 2: O(n^2) by sorting the array first
-bool find3Numbers2(int A[], int arr_size, int sum)
-{
-	int l, r;
+// Ver2: using binary search after sorting, O(N^2 * logN)
+int cnt_three_sum_v2(std::vector<int> vec, int sum) {
+  int cnt = 0;
+  std::sort(vec.begin(), vec.end());
+	for (int i=0; i < vec.size()-2; ++i) { 
+		for (int j=i+1; j < vec.size()-1; ++j) { 
+      int k = binary_search(vec, sum-(vec[i]+vec[j]));
+      if (k != -1 && k > j) {  // only count if i<j<k to avoid double counting
+        print_three_sum(vec, i, j, k, sum);
+        ++cnt;
+			} 
+		} 
+	} 
+	return cnt; 
+} 
 
-	/* Sort the elements */
-	sort(A, A + arr_size);
+// Ver2: using binary search after sorting, O(N^2)
+int cnt_three_sum_v2a(std::vector<int> vec, int sum) {
+  int cnt = 0;
+  std::sort(vec.begin(), vec.end());
 
-	/* Now fix the first element one by one and find the
-	other two elements */
-	for (int i = 0; i < arr_size - 2; i++) {
-
-		// To find the other two elements, start two index
-		// variables from two corners of the array and move
-		// them toward each other
-		l = i + 1; // index of the first element in the
-		// remaining elements
-
-		r = arr_size - 1; // index of the last element
+	for (int i = 0; i < vec.size()-2; i++) {
+		int l = i + 1; // index of the first element in the
+		int r = vec.size() - 1; // index of the last element
 		while (l < r) {
-			if (A[i] + A[l] + A[r] == sum) {
-				printf("Triplet is %d, %d, %d", A[i],
-					A[l], A[r]);
-				return true;
-			}
-			else if (A[i] + A[l] + A[r] < sum)
+			if (vec[i] + vec[l] + vec[r] == sum) {
+        print_three_sum(vec, i, l, r, sum);
+				++cnt;
+        l++;
+        r--;
+			}	else if (vec[i] + vec[l] + vec[r] < sum)
 				l++;
-			else // A[i] + A[l] + A[r] > sum
+			else // vec[i] + vec[l] + vec[r] > sum
 				r--;
 		}
 	}
-
-	// If we reach here, then no triplet was found
-	return false;
+	return cnt;
 }
 
-// returns true if there is triplet with sum equal
-// to 'sum' present in A[]. Also, prints the triplet
-// Method 3: Hashing Based Solution, O(n^2)
-bool find3Numbers3(int A[], int arr_size, int sum)
-{
-	// Fix the first element as A[i]
-	for (int i = 0; i < arr_size - 2; i++) {
-
-		// Find pair in subarray A[i+1..n-1]
-		// with sum equal to sum - A[i]
-		unordered_set<int> s;
-		int curr_sum = sum - A[i];
-		for (int j = i + 1; j < arr_size; j++) {
-			if (s.find(curr_sum - A[j]) != s.end()){
-			printf("Triplet is %d, %d, %d", A[i],
-					A[j], curr_sum-A[j]);
-				return true;
+// Ver3: Hashing Based Solution, O(n^2)
+int cnt_three_sum_v3(const std::vector<int>& vec, int sum) {
+  int cnt = 0;
+	for (int i = 0; i < vec.size() - 2; ++i) {
+		// Find pair in subarray vec[i+1..n-1]i with sum equal to sum - vec[i]
+    std::unordered_set<int> s;
+    std::unordered_map<int, int> debug;  // to debug
+		int curr_sum = sum - vec[i];
+		for (int j = i + 1; j < vec.size() -1; j++) {
+			if (s.find(curr_sum - vec[j]) != s.end()) {
+        print_three_sum(vec, i, j, debug[curr_sum-vec[j]], sum);
+        ++cnt;
 			}
-			s.insert(A[j]);
+			s.insert(vec[j]);
+      debug[vec[j]] = j;
 		}
 	}
-
-	// If we reach here, then no triplet was found
-	return false;
+	return cnt;
 }
 
-/* Driver program to test above function */
-int main()
-{
-	int A[] = { 1, 4, 45, 6, 10, 8 };
-	int sum = 22;
-	int arr_size = sizeof(A) / sizeof(A[0]);
-
-	find3Numbers(A, arr_size, sum);
-	find3Numbers2(A, arr_size, sum);
-	find3Numbers3(A, arr_size, sum);
-
-	return 0;
-}
-
+#endif  // THREE_SUM_H_ 
