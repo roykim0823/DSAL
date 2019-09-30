@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++14 -g -O0 -Werror -Wno-unused-variable -Wno-sign-compare   CMakeFiles/test_array.dir/src/test_array.cc.o  -o test_array -lrt 

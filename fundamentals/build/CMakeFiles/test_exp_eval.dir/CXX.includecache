@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/exp_eval.h
+stack
+-
+string
+-
+
+/home/roy/programming/DSAL/fundamentals/src/test_exp_eval.cc
+exp_eval.h
+/home/roy/programming/DSAL/fundamentals/src/exp_eval.h
+iostream
+-
+vector
+-
+

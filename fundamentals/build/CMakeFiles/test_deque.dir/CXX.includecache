@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/deque.h
+utils.h
+../include/utils.h
+vector.h
+../include/vector.h
+
+../include/utils.h
+
+../include/vector.h
+iostream
+-
+algorithm
+-
+stdlib.h
+-
+assert.h
+-
+memory
+-
+
+/home/roy/programming/DSAL/fundamentals/src/test_deque.cc
+cmath
+-
+cassert
+-
+ctime
+-
+cstdlib
+-
+iostream
+-
+deque.h
+/home/roy/programming/DSAL/fundamentals/src/deque.h
+

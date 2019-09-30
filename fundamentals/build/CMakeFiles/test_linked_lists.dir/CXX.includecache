@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/dl_list.h
+
+../include/dl_list_shared.h
+memory
+-
+
+../include/sl_list.h
+stdlib.h
+-
+
+../include/sl_list_shared.h
+memory
+-
+
+/home/roy/programming/DSAL/fundamentals/src/test_linked_lists.cc
+cmath
+-
+cassert
+-
+ctime
+-
+cstdlib
+-
+iostream
+-
+string
+-
+sl_list.h
+/home/roy/programming/DSAL/fundamentals/src/sl_list.h
+sl_list_shared.h
+/home/roy/programming/DSAL/fundamentals/src/sl_list_shared.h
+dl_list.h
+/home/roy/programming/DSAL/fundamentals/src/dl_list.h
+dl_list_shared.h
+/home/roy/programming/DSAL/fundamentals/src/dl_list_shared.h
+
