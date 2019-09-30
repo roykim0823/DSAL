@@ -28,7 +28,15 @@ operator[]: O(n) in SLL and DLL (DLL takes n/2)
 - Resizing array
   1. Every operation takes constant amorized time.
     - Latency of operations can be varied
-  2. Less wasted space.  
+  2. Less wasted space.
+
+## QuickFind vs. QuickUnion
+- Quick-find defect
+  1. Union too expensive, O(n)
+  2. Trees are flat, but too expensive to keep them flat.
+- QuickUnion defect
+  1. Trees can get tall.
+  2. Find too expensive, could be O(n)
 
 ## TODO
 trimeed test (reduce #files)

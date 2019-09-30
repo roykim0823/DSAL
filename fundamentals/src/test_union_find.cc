@@ -11,6 +11,12 @@
 #include "union_find.h"
 using namespace std;
 
+void print_vec(vector<int> vec) {
+  for (auto pos = vec.begin(); pos != vec.end(); ++pos) 
+    cout << *pos << " ";
+  cout << endl;
+}
+
 int main(int argc, char *argv[])
 {
 	// Read Graph file
@@ -24,9 +30,10 @@ int main(int argc, char *argv[])
 	boost::split(results, line, boost::is_any_of(" "));
 	int N = boost::lexical_cast<int>(results[0]);
 
-	QuickFindUF qfUF(N);
-	QuickUnionUF quUF(N);
-	WeightedQuickUnionUF wquUF(N);
+	QuickFind qf(N);
+	QuickUnion qu(N);
+	WeightedQuickUnion wqu(N);
+	WQUPC wqupc(N);
 
 	// Construct EdgeWeightedDigraph from the file
 	while(getline(ifile, line)) {
@@ -35,16 +42,18 @@ int main(int argc, char *argv[])
 		// p, q
 		int p = boost::lexical_cast<int>(results[0]); 
 		int q = boost::lexical_cast<int>(results[1]); 
-		if(qfUF.connected(p, q)==false)		
-			qfUF.connect(p, q);
-		if(quUF.connected(p, q)==false)
-			quUF.connect(p, q);
-		if(wquUF.connected(p, q)==false)
-			wquUF.connect(p, q);
+		qf.connect(p, q);
+		qu.connect(p, q);
+		wqu.connect(p, q);
+		wqupc.connect(p, q);
 	}
 	ifile.close();
-    
-    cout << "components" << qfUF.get_count() << endl;
-    cout << "components" << quUF.get_count() << endl;
-    cout << "components" << wquUF.get_count() << endl;
+    vector<int> id;
+    cout << "QuickFind components: " << qf.count() << endl;
+    // id = qf.get_id();
+    // print_vec(id);
+
+    cout << "QuickUnion components: " << qu.count() << endl;
+    cout << "WeightedQuickUnion components: " << wqu.count() << endl;
+    cout << "WQUPC components: " << wqupc.count() << endl;
 }
