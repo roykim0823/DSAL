@@ -15,7 +15,7 @@
 namespace HKSTL {
 
 enum class SortType { Select, Insert, Shell, Merge, Quick2WP, Quick,
-                      CountSort, RadixSort, PigeonholeSort};
+                      CountSort, RadixSort, PigeonholeSort, BucketSort};
 
 template <typename T>
 void SelectionSort(std::vector<T>& vec) {
@@ -202,6 +202,30 @@ void PigeonholeSort(std::vector<T>& vec) {
   }
 }
 
+// TODO: Use template for float or double type
+// template <typename T>
+void BucketSort(std::vector<float>& vec) 
+{ 
+    // 1) Create n empty buckets 
+    std::vector<float> bucket[vec.size()]; 
+     
+    // 2) Put array elements in different buckets 
+    for (int i=0; i<vec.size(); i++) {
+       int idx = vec.size()*vec[i]; // Index in bucket 
+       bucket[idx].push_back(vec[i]); 
+    } 
+  
+    // 3) Sort individual buckets 
+    for (int i=0; i<vec.size(); i++)
+      InsertionSort(bucket[i]);
+  
+    // 4) Concatenate all buckets into arr[] 
+    int index = 0; 
+    for (int i = 0; i < vec.size(); i++) 
+        for (int j = 0; j < bucket[i].size(); j++) 
+          vec[index++] = bucket[i][j]; 
+} 
+
 template <typename T>
 void Sort(std::vector<T>& vec, SortType sort_type, int n=0) {
   if (sort_type == SortType::Select) SelectionSort(vec);
@@ -213,6 +237,7 @@ void Sort(std::vector<T>& vec, SortType sort_type, int n=0) {
   else if (sort_type == SortType::CountSort) CountSort(vec, n);
   else if (sort_type == SortType::RadixSort) RadixSort(vec);
   else if (sort_type == SortType::PigeonholeSort) PigeonholeSort(vec);
+  // else if (sort_type == SortType::BucketSort) BucketSort(vec);
 }
 
 }  // namespace HKSTL

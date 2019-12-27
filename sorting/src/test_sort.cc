@@ -3,6 +3,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <iostream>
+#include <random>
 
 using namespace std;
 
@@ -46,6 +47,20 @@ void heapsortTests(vector<int> data) {
   }
 }
 
+void bucketsortTests(vector<float> data) {
+  clock_t start, stop;
+  cout << "Sorting " << data.size() << " elements using BucketSort...\t\t";
+
+  cout.flush();
+  start = clock();
+  BucketSort(data);
+  stop = clock();
+  cout << "DONE in (" << ((double)(stop-start))/CLOCKS_PER_SEC << "s)" << endl;
+  for (int i = 2; i < data.size(); ++i) {
+    assert(data[i-1] <= data[i]);
+  }
+}
+
 int main(int argc, char **argv) {
   int n = 10000;
   srand(0);
@@ -69,6 +84,14 @@ int main(int argc, char **argv) {
   sortTests(input_with_range, SortType::CountSort, "CountSort", n/10);
   sortTests(input_with_range, SortType::RadixSort, "RadixSort");
   sortTests(input_with_range, SortType::PigeonholeSort, "PigeonholeSort");
+
+  vector<float> input_dis;
+  std::default_random_engine e;
+  std::uniform_real_distribution<> dis(0, 1); // rage 0 - 1
+
+  for (int i=0; i<n; i++)
+    input_dis.push_back(dis(e));
+  bucketsortTests(input_dis);
 
   return 0;
 }
