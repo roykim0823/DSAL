@@ -34,9 +34,11 @@ When array is 25% full, halve size of array.
 - Quick-find defect
   1. Union too expensive, O(n)
   2. Trees are flat, but too expensive to keep them flat.
-- QuickUnion defect
+- QuickUnion
   1. Trees can get tall.
   2. Find too expensive, could be O(n)
+  3. Improvement1: Weighted Connection -> LogN tree height
+  4. Improvement2: Path Compression
 
 ## TODO
 trimeed test (reduce #files)

@@ -3,57 +3,78 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <map>
+#include <sstream> // Added for string parsing
 #include <stack>
-#include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
 
 #include "union_find.h"
+
 using namespace std;
 
-void print_vec(vector<int> vec) {
-  for (auto pos = vec.begin(); pos != vec.end(); ++pos) 
-    cout << *pos << " ";
-  cout << endl;
+// Helper function to print a vector
+void print_vec(const vector<int>& vec) {
+    for (int val : vec) 
+        cout << val << " ";
+    cout << endl;
 }
 
-int main(int argc, char *argv[])
-{
-	// Read Graph file
-	// Read airport file and extract edge list
-	ifstream ifile(argv[1]);	
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        cerr << "Usage: " << argv[0] << " <graph_file>" << endl;
+        return 1;
+    }
+
+    // Read Graph file
+    ifstream ifile(argv[1]);
+    if (!ifile.is_open()) {
+        cerr << "Error: Could not open file " << argv[1] << endl;
+        return 1;
+    }
+
     string line;
 
-	// First line is the number of nodes
-	getline(ifile, line);
-	vector<string> results;
-	boost::split(results, line, boost::is_any_of(" "));
-	int N = boost::lexical_cast<int>(results[0]);
+    // First line is the number of nodes
+    int N = 0;
+    if (getline(ifile, line)) {
+        stringstream ss(line);
+        if (!(ss >> N)) {
+            cerr << "Error: Invalid format for number of nodes." << endl;
+            return 1;
+        }
+    }
 
-	QuickFind qf(N);
-	QuickUnion qu(N);
-	WeightedQuickUnion wqu(N);
-	WQUPC wqupc(N);
+    // Initialize Union-Find objects
+    QuickFind qf(N);
+    QuickUnion qu(N);
+    WeightedQuickUnion wqu(N);
+    WQUPC wqupc(N);
 
-	// Construct EdgeWeightedDigraph from the file
-	while(getline(ifile, line)) {
-		vector<string> results;
-		boost::split(results, line, boost::is_any_of(" "));
-		// p, q
-		int p = boost::lexical_cast<int>(results[0]); 
-		int q = boost::lexical_cast<int>(results[1]); 
-		qf.connect(p, q);
-		qu.connect(p, q);
-		wqu.connect(p, q);
-		wqupc.connect(p, q);
-	}
-	ifile.close();
-    vector<int> id;
-    cout << "QuickFind components: " << qf.count() << endl;
-    // id = qf.get_id();
-    // print_vec(id);
+    // Read edges from the file
+    while (getline(ifile, line)) {
+        // Skip empty lines
+        if (line.empty()) continue;
 
-    cout << "QuickUnion components: " << qu.count() << endl;
+        stringstream ss(line);
+        int p, q;
+        
+        // Extract two integers from the line
+        if (ss >> p >> q) {
+					if (N<1000) {  // skip union for large graphs to save time
+            qf.connect(p, q);
+            qu.connect(p, q);
+					}
+          wqu.connect(p, q);
+          wqupc.connect(p, q);
+        }
+    }
+    ifile.close();
+
+    // Output Results
+		if (N < 1000) {
+    	cout << "QuickFind components: " << qf.count() << endl;
+    	cout << "QuickUnion components: " << qu.count() << endl;
+		}
     cout << "WeightedQuickUnion components: " << wqu.count() << endl;
     cout << "WQUPC components: " << wqupc.count() << endl;
+
+    return 0;
 }

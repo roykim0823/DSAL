@@ -10,7 +10,8 @@ int main() {
 	  "10 + 2 * 6",  
 	  "100 * 2 + 12",  
 	  "100 * ( 2 + 12 )", 
-	  "100 * ( 2 + 12 ) / 14"};
+	  "100 * ( 2 + 12 ) / 14",
+	  "(1 + ( (2+3) * (4*5) ))"};
 
   for (int i=0; i<expressions.size(); ++i) {
     cout << expressions[i] << " = " << evaluate(expressions[i]) << endl;
