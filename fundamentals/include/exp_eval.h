@@ -1,5 +1,6 @@
 // exp_eval.h
 // Evaluate a given experssion where tokens are separated by space.
+// Simpler reference is Dijkstra's Two-Stack Algorithm for Expression Evaluation, p129
 
 #ifndef EXP_EVAL_H_
 #define EXP_EVAL_H_
